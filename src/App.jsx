@@ -1,10 +1,17 @@
-import ProductList from "./components/ProductList";
-import Header from "./components/Header";
-import { Outlet } from "react-router-dom";
-function App(){
-  return (<>
-    <Header/>
-    <Outlet/>
-   </>)
+import { Suspense, lazy } from 'react';
+import { Outlet } from 'react-router-dom';
+
+const Header = lazy(() => import('./components/Header.jsx'));
+
+function App() {
+  return (
+    <>
+      <Suspense fallback={<div>Loading Header...</div>}>
+        <Header />
+      </Suspense>
+      <Outlet />
+    </>
+  );
 }
+
 export default App;

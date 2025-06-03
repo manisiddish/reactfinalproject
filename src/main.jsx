@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './redux/store.js';
 import './index.css';
-
+import NotFound from './components/NotFound.jsx';
 // Lazy-loaded components
 const App = lazy(() => import('./App.jsx'));
 const ProductList = lazy(() => import('./components/ProductList.jsx'));
@@ -32,6 +32,10 @@ const router = createBrowserRouter([
         path: '/Cart',
         element: <Cart />,
       },
+      {
+        path :"*",
+        element:<NotFound/>
+      }
     ],
   },
 ]);

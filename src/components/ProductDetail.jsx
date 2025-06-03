@@ -2,23 +2,24 @@ import useFetchProducts from "../hooks/useFetchProduct.js";
 import { useParams } from "react-router-dom";
 import { addToCart } from "../redux/cartSlice.js";
 import { useDispatch } from "react-redux";
+
 function ProductDetail() {
   const { products, loading, error } = useFetchProducts();
   const { id } = useParams();
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
   const product = products.find((product) => product.id.toString() === id);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
   if (!product) return <div>No product found</div>;
-    const handleAdd = () => {
-      dispatch(addToCart(product));
-    };
-  
+
+  const handleAdd = () => {
+    dispatch(addToCart(product));
+  };
 
   return (
     <div className="min-h-screen w-full flex flex-col items-center pt-20 bg-gray-100">
-      <div className="flex flex-col md:flex-row gap-8 items-start bg-white border rounded-xl shadow-lg p-6 w-[90%] max-w-5xl">
+      <div className="flex flex-col md:flex-row gap-8 items-start bg-white border rounded-xl shadow-lg p-6 w-full">
         {/* Image Section */}
         <div className="w-full md:w-1/2 h-[400px] border shadow-md flex items-center justify-center">
           <img

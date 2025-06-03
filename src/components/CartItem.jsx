@@ -17,7 +17,7 @@ function CartItem({ product }) {
   console.log(cartItems); // Just for debugging
 
   return (
-    <div key={product.id} className="border p-4 w-60 rounded shadow-md ">
+    <div key={product.id} className="border p-4 rounded shadow-md ">
       {/* Only wrap image/title in Link */}
       <Link to={`/ProductDetail/${product.id}`} className="block hover:underline">
         <img src={product.thumbnail} alt={product.title} width={150} className="mx-auto" />

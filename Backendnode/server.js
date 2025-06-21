@@ -8,10 +8,11 @@ const app = express();
 
 // ✅ Middleware FIRST
 app.use(cors({
-  origin: "http://localhost:5181", // ✅ your React frontend
+  origin: ["http://localhost:5181", "http://localhost:5182"], // ✅ allow both
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
 }));
+
 app.use(json());
 
 // ✅ THEN register routes

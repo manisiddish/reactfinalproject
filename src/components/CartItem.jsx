@@ -13,7 +13,7 @@ function CartItem({ product, fetchCart }) {
       },
       body: JSON.stringify({ productId }),
     });
-    fetchCart(); // ✅ now it updates from Cart.jsx
+    fetchCart();
   };
 
   const handleRemove = async (productId) => {
@@ -25,7 +25,29 @@ function CartItem({ product, fetchCart }) {
       },
       body: JSON.stringify({ productId }),
     });
-    fetchCart(); // ✅ now it updates from Cart.jsx
+    fetchCart();
+  };
+
+  const handleRemoveItem = async (productId) => {
+    const res = await fetch(`http://localhost:8000/cart/remove1/${userId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ productId }), // 👈 same as quantity decrease, but...
+    });
+
+    const data = await res.json();
+    if (data.cart) {
+      const item = data.cart.items.find(i => i.productId._id === productId);
+      if (!item || item.quantity <= 1) {
+        // this product is now removed
+        console.log("Item completely removed.");
+      }
+    }
+
+    fetchCart(); // update UI
   };
 
   return (
@@ -33,7 +55,7 @@ function CartItem({ product, fetchCart }) {
       <Link to={`/ProductDetail/${product.id}`} className="block hover:underline">
         <img src={product.thumbnail} alt={product.title} width={150} className="mx-auto" />
         <p className="mt-2 font-semibold">{product.title}</p>
-        <p className="text-gray-600">${product.price}</p>
+        <p className="text-gray-600">₹{product.price}</p>
       </Link>
 
       <div className="flex items-center justify-center mt-3 space-x-2">
@@ -51,6 +73,13 @@ function CartItem({ product, fetchCart }) {
           -
         </button>
       </div>
+
+      <button
+        onClick={() => handleRemoveItem(product.id)}
+        className="mt-2 w-full bg-red-600 hover:bg-red-700 text-white py-1 rounded"
+      >
+        🗑 Remove Item
+      </button>
     </div>
   );
 }

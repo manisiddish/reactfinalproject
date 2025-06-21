@@ -34,6 +34,7 @@ export const userRegister = async (req, res) => {
   }
 };
 
+
 export const loginverify = async (req, res) => {
   const { email, password } = req.body;
   console.log('Login attempt:', { email, password, trimmedEmail: email.trim() });
@@ -195,4 +196,23 @@ export async function removeFromCart(req, res) {
   }
 }
   
+export const removeEntireCartItem = async (req, res) => {
+  const { userId } = req.params;
+  const { productId } = req.body;
 
+  try {
+    const cart = await Cart.findOne({ userId });
+
+    if (!cart) return res.status(404).json({ message: "Cart not found" });
+
+    // Remove the item completely
+    cart.items = cart.items.filter(
+      item => item.productId.toString() !== productId
+    );
+
+    await cart.save();
+    res.status(200).json({ message: "Item removed", cart });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};

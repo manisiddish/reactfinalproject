@@ -5,13 +5,15 @@ import productitemSchema from "./product.shema.js"; // Make sure this path is co
 import { getCart } from "./controller.js";
 import { verifyToken } from "./middleware.js";
 import { addquntityToCart, removeFromCart } from "./controller.js";
-
+import { removeEntireCartItem } from "./controller.js";
 const router = express.Router();
 
 // User routes
 router.post("/register", userRegister);
 router.post("/login", loginverify);
 router.post("/cart/add/:userId",addquntityToCart);
+router.post("/cart/remove/:userId", verifyToken, removeFromCart);
+router.post("/cart/remove1/:userId", verifyToken, removeEntireCartItem);
 router.get("/cart/:userId",verifyToken, getCart);
 
 router.get("/products/:id", async (req, res) => {

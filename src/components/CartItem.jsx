@@ -1,39 +1,58 @@
-import { useSelector, useDispatch } from "react-redux";
-import { addToCart } from "../redux/cartSlice";
-import { removeFromCart } from "../redux/cartSlice";
 import { Link } from "react-router-dom";
 
-function CartItem({ product }) {
-  const dispatch = useDispatch();
-  const cartItems = useSelector((state) => state.cart.items);
+function CartItem({ product, fetchCart }) {
+  const userId = localStorage.getItem("userId");
+  const token = localStorage.getItem("token");
 
-  const handleAdd = () => {
-    dispatch(addToCart(product));
+  const handleAdd = async (productId) => {
+    await fetch(`http://localhost:8000/cart/add/${userId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ productId }),
+    });
+    fetchCart(); // ✅ now it updates from Cart.jsx
   };
-  const handleremove=()=>{
-     dispatch(removeFromCart(product.id));
-  }
 
-  console.log(cartItems); // Just for debugging
+  const handleRemove = async (productId) => {
+    await fetch(`http://localhost:8000/cart/remove/${userId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ productId }),
+    });
+    fetchCart(); // ✅ now it updates from Cart.jsx
+  };
 
   return (
-    <div key={product.id} className="border p-4 rounded shadow-md ">
-      {/* Only wrap image/title in Link */}
+    <div className="border p-4 rounded shadow-md">
       <Link to={`/ProductDetail/${product.id}`} className="block hover:underline">
         <img src={product.thumbnail} alt={product.title} width={150} className="mx-auto" />
         <p className="mt-2 font-semibold">{product.title}</p>
         <p className="text-gray-600">${product.price}</p>
       </Link>
 
-      {/* Button is outside the Link so it doesn't trigger navigation */}
-      <div className="flex"> <button
-        onClick={handleAdd}
-        className="mt-3 bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded" >+</button>
-        <p className="mt-4 ml-2">{product.quantity}</p>
-        <button  onClick={handleremove} className=" ml-2 mt-3 bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded"> -</button></div>
-
+      <div className="flex items-center justify-center mt-3 space-x-2">
+        <button
+          onClick={() => handleAdd(product.id)}
+          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded"
+        >
+          +
+        </button>
+        <p className="text-lg">{product.quantity}</p>
+        <button
+          onClick={() => handleRemove(product.id)}
+          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded"
+        >
+          -
+        </button>
+      </div>
     </div>
   );
 }
-export default CartItem;
 
+export default CartItem;

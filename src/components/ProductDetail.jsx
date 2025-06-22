@@ -39,41 +39,47 @@ function ProductDetail() {
       body: JSON.stringify({ productId: product._id, quantity: 1 }),
     })
       .then((res) => res.json())
-      .then((data) => {
-        alert("✅ Item added to cart!");
-      })
+      .then(() => alert("✅ Item added to cart!"))
       .catch((err) => {
         console.error("Add to cart error:", err);
         alert("❌ Failed to add item to cart.");
       });
   };
 
-  if (loading) return <p className="mt-20 text-center">Loading product details...</p>;
-  if (error) return <p className="mt-20 text-center text-red-600">Error: {error}</p>;
+  if (loading) return <p className="mt-20 text-center text-lg">⏳ Loading product details...</p>;
+  if (error) return <p className="mt-20 text-center text-red-600 font-semibold">❌ Error: {error}</p>;
 
   return (
-    <div className="min-h-screen w-full flex flex-col items-center pt-20 bg-gray-100">
-      <div className="flex flex-col md:flex-row gap-8 items-start bg-white border rounded-xl shadow-lg p-6 w-full max-w-4xl">
-        <div className="w-full md:w-1/2 h-[400px] border shadow-md flex items-center justify-center">
-          <img src={product.thumbnail} alt={product.title} className="h-full w-auto object-contain" />
+    <div className="min-h-screen bg-gradient-to-b from-white to-gray-100 py-10 px-4 flex justify-center">
+      <div className="max-w-5xl w-full bg-white shadow-2xl rounded-2xl overflow-hidden grid grid-cols-1 md:grid-cols-2 gap-8 p-6 md:p-10">
+        <div className="flex justify-center items-center border rounded-lg overflow-hidden bg-gray-50">
+          <img
+            src={product.thumbnail}
+            alt={product.title}
+            className="h-96 object-contain p-4"
+          />
         </div>
 
-        <div className="w-full md:w-1/2 space-y-4">
-          <h1 className="text-2xl font-bold">{product.title}</h1>
-          <p className="text-lg font-semibold text-green-700">Price: ${product.price}</p>
-          <p className="text-sm text-yellow-600">Rating: {product.rating}</p>
-          <p><span className="font-semibold">Warranty:</span> {product.warrantyInformation || "N/A"}</p>
-          <p><span className="font-semibold">Dimensions (depth):</span> {product.dimensions?.depth || "N/A"}</p>
-          <p><span className="font-semibold">Shipping:</span> {product.shippingInformation || "N/A"}</p>
-          <p><span className="font-semibold">Return Policy:</span> {product.returnPolicy || "N/A"}</p>
-          <p><span className="font-semibold">Minimum Order Quantity:</span> {product.minimumOrderQuantity || "1"}</p>
-          <p><span className="font-semibold">Description:</span> {product.description}</p>
+        <div className="flex flex-col justify-between space-y-6">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-800 mb-2">{product.title}</h1>
+            <p className="text-xl font-semibold text-green-600 mb-1">₹ {product.price}</p>
+            <p className="text-sm text-yellow-500 mb-3">⭐ Rating: {product.rating}</p>
+            <ul className="space-y-1 text-sm text-gray-600">
+             
+              <li><span className="font-semibold text-gray-800">Min Order Qty:</span> {product.minimumOrderQuantity || "1"}</li>
+            </ul>
+            <div className="mt-4">
+              <h2 className="font-semibold text-gray-800 mb-1">Description:</h2>
+              <p className="text-sm text-gray-600 leading-relaxed">{product.description}</p>
+            </div>
+          </div>
 
           <button
             onClick={handleAdd}
-            className="mt-4 bg-black text-white px-6 py-2 rounded hover:bg-gray-800 transition"
+            className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-200 shadow-md"
           >
-            Add to Cart
+            🛒 Add to Cart
           </button>
         </div>
       </div>

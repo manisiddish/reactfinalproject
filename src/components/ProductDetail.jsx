@@ -48,7 +48,6 @@ function ProductDetail() {
 
   if (loading) return <p className="mt-20 text-center text-lg">⏳ Loading product details...</p>;
   if (error) return <p className="mt-20 text-center text-red-600 font-semibold">❌ Error: {error}</p>;
-
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-gray-100 py-10 px-4 flex justify-center">
       <div className="max-w-5xl w-full bg-white shadow-2xl rounded-2xl overflow-hidden grid grid-cols-1 md:grid-cols-2 gap-8 p-6 md:p-10">

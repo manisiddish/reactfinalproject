@@ -39,11 +39,12 @@ function ProductItem({ product }) {
       alert("Something went wrong. Please try again.");
     }
   };
+  console.log(product.thumbnail)
 
   return (
     <div className="w-60 bg-white border rounded-xl shadow-md hover:shadow-lg p-4 transition-shadow duration-200">
       <Link to={`/ProductDetail/${product._id}`} className="block hover:underline">
-        <img src={product.thumbnail} alt={product.title} className="w-full h-36 object-cover rounded-lg" />
+        <img src="https://cdn.dummyjson.com/product-images/groceries/ice-cream/thumbnail.webp" alt={product.title} className="w-full h-36 object-cover rounded-lg" />
         <h3 className="mt-3 text-md font-semibold text-gray-800 truncate">{product.title}</h3>
         <p className="text-gray-600">₹{product.price}</p>
       </Link>

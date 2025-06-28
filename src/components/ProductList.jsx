@@ -29,6 +29,7 @@ function ProductList() {
   const filteredProducts = products.filter(product =>
     product.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
+  
 
   // 🟢 Render
   if (loading) return <p className="text-center mt-10">Loading products...</p>;
